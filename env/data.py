@@ -1,0 +1,88 @@
+EMAILS = {
+    "easy_001": {
+        "email_id": "easy_001",
+        "subject": "How do I reset my password?",
+        "body": "Hi,\n\nI forgot my password and cannot log into my account. Could you please help me reset it?\n\nThanks,\nJohn Smith",
+        "sender": "john.smith@example.com",
+        "timestamp": "2024-03-15T09:23:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "low", "department": "technical", "escalate": False},
+    },
+    "easy_002": {
+        "email_id": "easy_002",
+        "subject": "Question about my invoice",
+        "body": "Hello,\n\nI received invoice #INV-2024-0042 but the amount seems incorrect. I was charged $150 but my plan is $99/month.\n\nBest,\nSarah Lee",
+        "sender": "sarah.lee@business.com",
+        "timestamp": "2024-03-15T10:05:00Z",
+        "attachments": ["invoice.pdf"],
+        "ground_truth": {"urgency": "medium", "department": "billing", "escalate": False},
+    },
+    "easy_003": {
+        "email_id": "easy_003",
+        "subject": "Interested in upgrading my plan",
+        "body": "Hi,\n\nI am on the Basic plan and would like to learn about Pro and Enterprise pricing.\n\nRegards,\nMike Johnson",
+        "sender": "mike.j@startup.io",
+        "timestamp": "2024-03-15T11:00:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "low", "department": "sales", "escalate": False},
+    },
+    "medium_001": {
+        "email_id": "medium_001",
+        "subject": "API integration broken since your update",
+        "body": "Hi Support,\n\nSince your maintenance update yesterday, our API integration stopped working. We get 502 errors on every POST to /api/v2/data. This is affecting our production pipeline.\n\nError: POST /api/v2/data -> 502 Bad Gateway\n\nPlease advise urgently.\n\nDev Team @ AcmeCorp",
+        "sender": "devteam@acmecorp.com",
+        "timestamp": "2024-03-15T07:00:00Z",
+        "attachments": ["error_logs.txt"],
+        "ground_truth": {"urgency": "high", "department": "technical", "escalate": False, "reply_keywords": ["apologize", "investigating", "update", "team"]},
+    },
+    "medium_002": {
+        "email_id": "medium_002",
+        "subject": "Charged twice for the same subscription",
+        "body": "Hello,\n\nI was charged twice this month — on March 1st for $99 and again on March 5th for $99. Please refund the duplicate charge.\n\nOrder IDs: ORD-78231, ORD-78405\n\nThanks,\nEmily Chen",
+        "sender": "emily.chen@gmail.com",
+        "timestamp": "2024-03-15T14:22:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "high", "department": "billing", "escalate": False, "reply_keywords": ["apologize", "refund", "investigate", "order"]},
+    },
+    "medium_003": {
+        "email_id": "medium_003",
+        "subject": "General feedback about the product",
+        "body": "Hi,\n\nOverall I love the product but dark mode has contrast issues on the settings page. Keyboard shortcuts would also be great.\n\nAlex",
+        "sender": "alex.r@personal.net",
+        "timestamp": "2024-03-15T16:00:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "low", "department": "general", "escalate": False, "reply_keywords": ["thank", "feedback", "team"]},
+    },
+    "hard_001": {
+        "email_id": "hard_001",
+        "subject": "URGENT: Data breach concern — customer PII exposed",
+        "body": "To Whom It May Concern,\n\nI am a security researcher. I found an exposed S3 bucket with ~50,000 customer records including names, emails, and partial credit card numbers. I am giving you 24 hours before reporting to authorities.\n\nDr. Ravi Patel",
+        "sender": "ravi.patel.sec@proton.me",
+        "timestamp": "2024-03-15T02:14:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "critical", "department": "escalation", "escalate": True, "reply_keywords": ["thank", "seriously", "investigate", "urgently"]},
+    },
+    "hard_002": {
+        "email_id": "hard_002",
+        "subject": "Account suspended — affecting my business",
+        "body": "Hello,\n\nMy account (USR-99021) was suspended without warning. I run an e-commerce business and lost $3,000 in sales in 6 hours. I have been a customer for 3 years. If not resolved in 2 hours I will dispute all charges with my bank.\n\nTanya Williams, CEO ShopTanya LLC",
+        "sender": "tanya@shoptanya.com",
+        "timestamp": "2024-03-15T08:47:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "critical", "department": "escalation", "escalate": True, "reply_keywords": ["apologize", "account", "investigate", "priority"]},
+    },
+    "hard_003": {
+        "email_id": "hard_003",
+        "subject": "Re: Re: Re: Still not fixed after 2 weeks",
+        "body": "This is my FOURTH email. Ticket #TKT-2024-1102 is open for 14 days. I keep being told 48 hours but nothing happens. My data export times out for datasets over 10,000 rows. I pay $2,400/month for Enterprise. I want a manager or I'm cancelling.\n\nRobert Kim, FinanceWave",
+        "sender": "robert.kim@financewave.com",
+        "timestamp": "2024-03-15T11:35:00Z",
+        "attachments": [],
+        "ground_truth": {"urgency": "critical", "department": "escalation", "escalate": True, "reply_keywords": ["apologize", "manager", "ticket", "priority"]},
+    },
+}
+
+
+def get_emails_for_task(task_id: str) -> list:
+    prefix = task_id.replace("task_", "")
+    return [e for k, e in EMAILS.items() if k.startswith(prefix)]

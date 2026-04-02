@@ -1,0 +1,58 @@
+name: email-triage-env
+version: "1.0.0"
+description: >
+  A real-world customer support email triage environment where an AI agent
+  reads incoming support emails and must classify urgency, assign department,
+  draft a reply, and escalate when needed.
+
+observation_space:
+  type: object
+  properties:
+    email_id:     { type: string }
+    subject:      { type: string }
+    body:         { type: string }
+    sender:       { type: string }
+    timestamp:    { type: string }
+    attachments:  { type: array, items: { type: string } }
+    task_id:      { type: string }
+    task_description: { type: string }
+
+action_space:
+  type: object
+  properties:
+    urgency:      { type: string, enum: [low, medium, high, critical] }
+    department:   { type: string, enum: [billing, technical, general, escalation, sales] }
+    reply_draft:  { type: string }
+    escalate:     { type: boolean }
+    tags:         { type: array, items: { type: string } }
+
+tasks:
+  - id: task_easy
+    name: "Basic Email Classification"
+    description: "Classify urgency and route email to correct department."
+    difficulty: easy
+    score_range: [0.0, 1.0]
+
+  - id: task_medium
+    name: "Email Triage with Reply Draft"
+    description: "Classify urgency, route correctly, and draft a professional reply."
+    difficulty: medium
+    score_range: [0.0, 1.0]
+
+  - id: task_hard
+    name: "Multi-signal Escalation Decision"
+    description: "Classify, route, draft reply, and decide escalation."
+    difficulty: hard
+    score_range: [0.0, 1.0]
+
+endpoints:
+  reset:  POST /reset
+  step:   POST /step
+  state:  GET /state
+  tasks:  GET /tasks
+  health: GET /health
+
+runtime:
+  python: "3.11"
+  framework: fastapi
+  port: 7860
